@@ -15,7 +15,7 @@ Pilha_lista* cria_lista (void)
 
 
 /* função auxiliar: insere no início */
-No* ins_ini (No* l, float v)
+No* ins_ini (No* l, unsigned char v)
 {
     No* p = (No*) malloc(sizeof(No));
     p->info = v;
@@ -32,14 +32,14 @@ No* ret_ini (No* l)
 
 
 
-void push_lista (Pilha_lista* p, float v)
+void push_lista (Pilha_lista* p, unsigned char v)
 {
     /*recebe auxilio da função insere */
     p->prim = ins_ini(p->prim,v);
 }
 float pop_lista (Pilha_lista* p)
 {
-    float v;
+    unsigned char v;
     if (vazia_lista(p))
     {
         printf("Pilha vazia.\n");
@@ -74,7 +74,7 @@ void imprime_lista (Pilha_lista* p)
 {
     No* q;
     for (q=p->prim; q!=NULL; q=q->prox)
-        printf("%f\n",q->info);
+        printf("%c\n",q->info);
 }
 
 /*****************************************************************************************************************************************************
@@ -159,5 +159,87 @@ void libera_calc (Calc* c)
 {
     libera_lista(c->p);
     free(c);
+}
+
+/****************************************************************
+                        Exemplo
+********************************************************************/
+
+
+No2 * empilhar2(No2*pilha_lista , float  num){
+    No2*novo=malloc(sizeof(No2));
+
+    if(novo){
+        novo->valor=num;
+        novo->proximo=pilha_lista;
+        return novo;
+    }
+    else
+        printf("\tErro ao alocar memoria! \n");
+    return NULL;
+
+}
+
+
+No2 * desempilhar2(No2**pilha_lista){
+    No2*remover=NULL;
+
+    if(*pilha_lista){
+        remover=*pilha_lista;
+        *pilha_lista=remover->proximo;
+    }
+    else
+        printf("\tPilha vazia \n");
+    return remover;
+}
+
+
+float operacao2(float a , float b , char x)
+{
+    switch(x){
+    case '+':
+        return a + b;
+        break;
+    case '-':
+        return a - b;
+        break;
+    case '/':
+        return a / b;
+        break;
+    case '*':
+        return a * b;
+        break;
+    default:
+        return 0.0;
+
+    }
+}
+
+
+
+float resolver_expressao2(char x[]){
+    char *pt;
+    float  num;
+    No2 * n1, *n2 ,*pilha_lista=NULL;
+    pt=strtok(x," ");
+    while(pt){
+        if(pt[0]=='+'||pt[0]=='-'||pt[0]=='/'||pt[0]=='*'){
+            n1=desempilhar2(&pilha_lista);
+            n2=desempilhar2(&pilha_lista);
+            num =operacao2(n2->valor , n1->valor , pt[0]) ;
+            pilha_lista = empilhar2(pilha_lista , num);
+            free(n1);
+            free(n2);
+        }
+        else{
+            num= strtol(pt,NULL , 10);
+            pilha_lista = empilhar2(pilha_lista , num);
+        }
+        pt=strtok(NULL ," ");
+    }
+    n1 = desempilhar2(&pilha_lista);
+    num = n1->valor;
+    free(n1);
+    return num;
 }
 

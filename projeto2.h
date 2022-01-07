@@ -5,7 +5,8 @@
 
 struct no
 {
-    float  info;
+
+    unsigned char   info;
     struct no* prox;
 };
 typedef struct no No;
@@ -20,13 +21,13 @@ struct pilha_lista
 Pilha_lista* cria_lista (void);
 
 /* função auxiliar: insere no início */
-No* ins_ini (No* l, float v);
+No* ins_ini (No* l, unsigned char v);
 
 /* função auxiliar: retira do início */
 No* ret_ini (No* l);
 
 /*função que inserir um elemento na pilha ; pilha com lista */
-void push_lista (Pilha_lista* p, float v);
+void push_lista (Pilha_lista* p, unsigned char  v);
 /*Função que retirar um elemento na pilha ; pilha com lista */
 float pop_lista (Pilha_lista* p);
 /*A pilha estará vazia se a lista estiver vazia ; pilha com lista */
@@ -46,6 +47,7 @@ void imprime_lista (Pilha_lista* p);
 
 struct no_cal
 {
+
     int info;
     struct no_cal* prox;
 };
@@ -73,3 +75,19 @@ struct calc
     char f[21]; /* formato para impressão */
     Pilha_cal* p; /* pilha de operandos */
 };
+
+
+/**************************************
+                Exemplo
+*********************************/
+
+// e o tabelo ASCI o float vai ser
+struct no2
+{
+
+    float  valor;
+    struct no2* proximo;
+};
+typedef struct no2 No2;
+
+
