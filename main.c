@@ -6,11 +6,12 @@
 /**
 ***
 ****             @autor                   Reidner sousa
-******           @Version                 1.0
-*******          @DataUltimaModificacao   07/01/2022 19:42
+******           @Version                 1.1
+*******          @DataUltimaModificacao   07/01/2022 21:57
 *******          @NomeCodigo              Projeto 2
 ******           @TipoCodigo              Lista Pilhas
 *****            @CoisasParaFazer         Desenvolver um  algoritmo que utlizar notação polonesa
+                                          Criar uma função que quebra as string
 ****
 **/
 
@@ -147,37 +148,74 @@ unsigned resolve (unsigned char x[])
     (5*(3+(2)*(4+(6*(7+1)))))   5 3 2 4 6 7 1 + * + * + *   R= 535
 */
 
-
-// não consigo retorna o +
-char  teste (char a[10],char b[10],char x[10])
+/**             @Nome "teste"
+*               @Funcao que recebe 3 string   a=vogal b=vogal e x=sinal de opereção e retorna uma
+*               String com todos os 3 valores juntos
+*
+*/
+char  *teste (char a[10],char b[10],char x[10])
 {
+    char *res;
+    res=malloc(20*sizeof(char));
+
+
+
     if(strcmp(x,"+")==0)
     {
+
         printf("iguais\n");
-        return x;
+        strcat(a,x);
+        strcat(a,b);
+        res=a;
+        return res;
     }
-    else
-        printf("Dififente");
+     if(strcmp(x,"-")==0)
+    {
+
+        printf("iguais\n");
+        strcat(a,x);
+        strcat(a,b);
+        res=a;
+        return res;
+    }
+    if(strcmp(x,"*")==0)
+    {
+
+        printf("iguais\n");
+        strcat(a,x);
+        strcat(a,b);
+        res=a;
+        return res;
+    }
+    if(strcmp(x,"/")==0)
+    {
+
+        printf("iguais\n");
+        strcat(a,x);
+        strcat(a,b);
+        res=a;
+        return res;
+    }
+
+
 }
 
 int main()
 {
-    //char exp [50]={"51 13 12 * +"};
 
-    ///char msg[ MAXBUF + 1 ] = {0};
-    //obter_msg( msg, MAXBUF );
 
     char ex[50]= {"(A+B*C)/0"}; //= ABC*+
-    // printf(">>>>>>>>>%s",myFunction("aaa"));
-    // printf(">>>>>>>>>%c",myFunction("aaa"));
+    unsigned *pt;
+    pt=strtok(ex,"(");
+    printf("pt %s\n",pt);
+    printf("ex %s\n",ex);
 
-    //char *strcpy (char *y, char *x);
     char a[30]="A";
     char b[36]="B";
-    char x[2]="+";
+    char x[2]="/";
     char l[30];
 
-    printf("%c\n",teste(a,b,x));
+    printf("%s\n",teste(a,b,x));
 
     // printf("%s\n",operation(a,b,x));
 
