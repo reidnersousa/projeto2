@@ -58,7 +58,7 @@ No1 * desempilhar(No1**pilha_lista)
 
 /**         @Nomefuncao operation_deleta_dps
 *           @Funcaoque
-*
+*           @Posicao n1
 */
 char operation_deleta_dps ( char a[], char b[], char x)
 {
@@ -104,33 +104,8 @@ char operation_deleta_dps ( char a[], char b[], char x)
             (A+B*C)               ABC*+
         (A*(B+C)/D-E)	        ABC+*D/E-
 ***/
-/*
-unsigned resolve (unsigned char x[])
-{
-    unsigned *pt;
-    unsigned num;
-    No1 * n2, *n2, *pilha_lista=NULL;
-    pt=strtok(x,"(",);
-    while(pt)
-    {
-        if(pt[0]=='+'||pt[0]=='-'||pt[0]=='/'||pt[0]=='*')
-        {
-            n1=desempilhar(&pilha_lista);
-            n2=desempilhar(&pilha_lista);
 
-            num =operation(n2->valor, n1->valor, pt[0]) ;
-            pilha_lista = empilhar(pilha_lista, num);
-            free(n1);
-            free(n2);
-        }
-        else{
-            printf("Faz algo\n");
-            pilha_lista = empilhar(pilha_lista, num);
-        }
-        pt=strtok(NULL," ");
-    }
 
- */
 /******
 4) Notação pos-fixa polonesa reversa (calculadora HP)
     infixa                      Pos-fixa
@@ -207,6 +182,7 @@ int main()
     char ex[50]= {"(A+B*C)/0"}; //= ABC*+
     unsigned *pt;
     pt=strtok(ex,"(");
+
     printf("pt %s\n",pt);
     printf("ex %s\n",ex);
 
