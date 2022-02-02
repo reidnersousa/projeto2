@@ -1,199 +1,148 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include<math.h>
-#include<string.h>
+#include <string.h>
+#include "calc.h"
+#include "pilhadechars.h"
 #include "projeto2.h"
+#define MAX 20
+
+
+
 /**
-***
-****             @autor                   Reidner sousa
-******           @Version                 1.1
-*******          @DataUltimaModificacao   07/01/2022 21:57
-*******          @NomeCodigo              Projeto 2
-******           @TipoCodigo              Lista Pilhas
-*****            @CoisasParaFazer         Desenvolver um  algoritmo que utlizar notação polonesa
-                                          Criar uma função que quebra as string
-****
-**/
-
-
-typedef struct no1
-{
-    unsigned char  valor;
-    struct no*proximo;
-} No1;
-
-No1 * empilhar(No1*pilha_lista, unsigned char  num)
-{
-    No1*novo=malloc(sizeof(No1));
-
-    if(novo)
-    {
-        novo->valor=num;
-        novo->proximo=pilha_lista;
-        return novo;
-    }
-    else
-        printf("\tErro ao alocar memoria! \n");
-    return NULL;
-
-}
-
-No1 * desempilhar(No1**pilha_lista)
-{
-    No1*remover=NULL;
-
-    if(*pilha_lista)
-    {
-        remover=*pilha_lista;
-        *pilha_lista=remover->proximo;
-    }
-    else
-        printf("\tPilha vazia \n");
-    return remover;
-}
-
-
-
-/***TEStes   **/
-
-/**         @Nomefuncao operation_deleta_dps
-*           @Funcaoque
-*           @Posicao n1
-*/
-char operation_deleta_dps ( char a[], char b[], char x)
-{
-
-
-    switch(x)
-    {
-    case '+':
-        strcat(a,x);
-        strcat(a,b);
-        return a;
-        break;
-
-    case '-':
-        strcat(a,x);
-        strcat(a,b);
-        return a;
-        break;
-    case '/':
-        strcat(a,x);
-        strcat(a,b);
-        return a;
-        break;
-    case '*':
-        strcat(a,x);
-        strcat(a,b);
-        return a;
-        break;
-    default:
-        return 0.0;
-
-    }
-}
-
-
-/*
-
-
-/***
-            recebe infixado e  retorna fixado
-
-            infixado            pos fixado
-            (A+B*C)               ABC*+
-        (A*(B+C)/D-E)	        ABC+*D/E-
-***/
-
-
-/******
-4) Notação pos-fixa polonesa reversa (calculadora HP)
-    infixa                      Pos-fixa
-    (51+13*13)                  51 13 12 * +                R=207
-    (5*(3+2)/4-6)               5 3 2 + * 4 / 6 -           R=0,25
-*****/
-
-
-/*
-    4) Notação pos-fixa polonesa reversa (calculadora HP)
-    infixa                      Pos-fixa
-    (51+13*13)                  51 13 12 * +                R=207
-    (5*(3+2)/4-6)               5 3 2 + * 4 / 6 -           R=0,25
-    (5+3+2*4-6*7*1)             5 3 + 2 4 * + 6 7 * 1 * -   R= -26
-    (5*(3+(2)*(4+(6*(7+1)))))   5 3 2 4 6 7 1 + * + * + *   R= 535
-*/
-
-/**             @Nome "teste"
-*               @Funcao que recebe 3 string   a=vogal b=vogal e x=sinal de opereção e retorna uma
-*               String com todos os 3 valores juntos
+*                   @Observacao O algoritmo precisa "Duvidas com if  " (ja tentei fazer com vector mas tive d
+                                                                        dificuldade com em troca o int por char )
+*                   @Versao     3.3             Ultima atualização 20:46 01/02/2022
 *
 */
-char  *teste (char a[10],char b[10],char x[10])
-{
-    char *res;
-    res=malloc(20*sizeof(char));
-
-
-
-    if(strcmp(x,"+")==0)
-    {
-
-        printf("iguais\n");
-        strcat(a,x);
-        strcat(a,b);
-        res=a;
-        return res;
-    }
-     if(strcmp(x,"-")==0)
-    {
-
-        printf("iguais\n");
-        strcat(a,x);
-        strcat(a,b);
-        res=a;
-        return res;
-    }
-    if(strcmp(x,"*")==0)
-    {
-
-        printf("iguais\n");
-        strcat(a,x);
-        strcat(a,b);
-        res=a;
-        return res;
-    }
-    if(strcmp(x,"/")==0)
-    {
-
-        printf("iguais\n");
-        strcat(a,x);
-        strcat(a,b);
-        res=a;
-        return res;
-    }
-
-
-}
-
 int main()
 {
 
 
-    char ex[50]= {"(A+B*C)/0"}; //= ABC*+
-    unsigned *pt;
-    pt=strtok(ex,"(");
 
-    printf("pt %s\n",pt);
-    printf("ex %s\n",ex);
+    /**Pilha char ***/
 
-    char a[30]="A";
-    char b[36]="B";
-    char x[2]="/";
-    char l[30];
+    char palavra[20]= {" ( A + B * C )"};
 
-    printf("%s\n",teste(a,b,x));
+    char *sub;
 
-    // printf("%s\n",operation(a,b,x));
+    int tamanho=0 ,i;
+    int pesq=0 , pdir=0;
+    Pilha*texto=cria();
+         // usado na primeira questão
+    Pilha*textoAux=cria();
+    Pilha*textoABC=cria();
+    Pilha*textoOpe=cria();
+    Pilha*textoSec=cria();
+
+
+
+
+    sub=strtok(palavra," ");
+    while(sub != NULL)
+    {
+        printf("\n%s",sub);
+        push(texto,sub);
+        tamanho++;
+        if(strcmp(sub,"(")==0){
+            pesq++;
+            printf("( >>%d\n",pesq);
+        }
+        if(strcmp(sub,")")==0){
+            pdir++;
+            printf("( >>%d\n",pdir);
+        }
+
+
+        sub=strtok(NULL," ");
+
+    }
+
+    printf("Tamanho %d ",tamanho);
+    imprime_char(texto);
+
+   // LimpaPilha(texto,tamanho);
+
+    imprime_char(texto);
+
+    //printf("TExto 1\n");
+    //imprime_char(texto);
+    pop(texto);
+
+    //printf("TExto 1\n");
+    //imprime_char(texto);
+
+    ArrumaPilha(texto,textoSec);
+    pop(textoSec);
+    //printf("TExto 1\n");
+    //imprime_char(textoSec);
+
+    //printf("EStagio 7");
+    ArrumaPilha1So(textoSec,textoABC);
+    //imprime_char(textoABC);
+    pop(textoSec);
+    //printf("NMN>>\n");
+    //imprime_char(textoSec);
+    ArrumaPilha1So(textoSec,textoOpe);
+    //imprime_char(textoOpe);
+
+    //printf("EStagio 10\n");
+    pop(textoSec);
+    //imprime_char(textoSec);
+    ArrumaPilha1So(textoSec,textoABC);
+
+    //  printf("RT\n");
+    //imprime_char(textoABC);
+    pop(textoSec);
+
+    ArrumaPilha1So(textoSec,textoOpe);
+    pop(textoSec);
+    ArrumaPilha1So(textoSec,textoABC);
+
+    printf("ABC\n");
+    imprime_char(textoABC);
+
+    printf("Ope\n");
+    imprime_char(textoOpe);
+
+    printf("Sec\n");
+    imprime_char(textoSec);
+    pop(textoSec);
+
+    printf(">>\n");
+    ArrumaPilha(textoOpe,textoAux);
+    imprime_char(textoAux);
+    ArrumaPilha(textoAux,textoSec);
+
+
+    printf("\n");
+    ArrumaPilha(textoABC,textoSec);
+    imprime_char(textoSec);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -202,20 +151,4 @@ int main()
     system("pause");
 
     return 0;
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
